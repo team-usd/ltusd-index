@@ -55,6 +55,17 @@ type Transfer @entity(timeseries: true) {
   transactionHash: Bytes!
 }
 
+type BurnOrMint @entity(immutable: true) {
+  id: Bytes!
+  timestamp: Timestamp!
+  from: Bytes! # address
+  to: Bytes! # address
+  value: BigInt! # uint256
+  blockNumber: BigInt!
+#  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
 type TransferStats @aggregation(intervals: ["hour", "day"], source: "Transfer") {
   id: Int8!
   timestamp: Timestamp!
