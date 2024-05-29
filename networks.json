@@ -1,0 +1,8 @@
+{
+  "sepolia": {
+    "LTUSD": {
+      "address": "0x64F4c7d3697C2A173AdAE7Cd26A839967258a448",
+      "startBlock": 5920446
+    }
+  }
+}

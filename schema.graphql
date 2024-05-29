@@ -1,0 +1,63 @@
+type TotalSupply @entity(immutable: true) {
+  id: Bytes!
+  value: BigInt! 
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+}
+
+# Token details
+type Token @entity {
+  id: ID!
+  #token name
+  name: String!
+  #token symbol
+  symbol: String!
+  #decimals used
+  decimals: BigInt!
+}
+
+# account details
+#type Account @entity {
+#  #account address
+#  id: ID!
+#  #balances
+#  balances: [TokenBalance!]! @derivedFrom(field: "account")
+#}
+# token balance details
+#type TokenBalance @entity {
+#  id: ID!
+#  #token
+#  token: Token!
+#  #account
+#  account: Account!
+#  #amount
+#  amount: BigInt!
+#}
+
+type Account @entity {
+  #account address
+  id: ID!
+  #balance
+  amount: BigInt!
+  #last updated block number
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+}
+
+type Transfer @entity(timeseries: true) {
+  id: Int8!
+  timestamp: Timestamp!
+  from: Bytes! # address
+  to: Bytes! # address
+  value: BigInt! # uint256
+  blockNumber: BigInt!
+#  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type TransferStats @aggregation(intervals: ["hour", "day"], source: "Transfer") {
+  id: Int8!
+  timestamp: Timestamp!
+  volumn: BigInt! @aggregate(fn: "sum", arg: "value")
+  count: Int! @aggregate(fn: "count")
+}
