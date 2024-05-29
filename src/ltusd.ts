@@ -19,6 +19,7 @@ function handleMint(event: TransferEvent): void {
     if (!totalSupplyResult.reverted) {
       totalSupply.value = totalSupplyResult.value
       totalSupply.blockNumber = event.block.number
+      totalSupply.blockTimestamp = event.block.timestamp.toI32()
       totalSupply.save()
     }
   }
@@ -46,7 +47,7 @@ function handleBalance(event: TransferEvent, address: Address): void {
     if (balance !== null) {
       account.amount = balance
       account.blockNumber = event.block.number
-      account.blockTimestamp = event.block.timestamp
+      account.blockTimestamp = event.block.timestamp.toI32()
       account.save()
     }
   }

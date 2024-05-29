@@ -2,7 +2,7 @@ type TotalSupply @entity(immutable: true) {
   id: Bytes!
   value: BigInt! 
   blockNumber: BigInt!
-  blockTimestamp: BigInt!
+  blockTimestamp: Timestamp!
 }
 
 # Token details
@@ -41,7 +41,7 @@ type Account @entity {
   amount: BigInt!
   #last updated block number
   blockNumber: BigInt!
-  blockTimestamp: BigInt!
+  blockTimestamp: Timestamp!
 }
 
 type Transfer @entity(timeseries: true) {
