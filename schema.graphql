@@ -44,31 +44,39 @@ type Account @entity {
   blockTimestamp: Timestamp!
 }
 
+enum TransferType {
+  NORMAL
+  MINT
+  BURN
+}
+
 type Transfer @entity(timeseries: true) {
   id: Int8!
   timestamp: Timestamp!
   from: Bytes! # address
   to: Bytes! # address
+  type: TransferType!
   value: BigInt! # uint256
   blockNumber: BigInt!
 #  blockTimestamp: BigInt!
   transactionHash: Bytes!
 }
 
-type BurnOrMint @entity(immutable: true) {
-  id: Bytes!
-  timestamp: Timestamp!
-  from: Bytes! # address
-  to: Bytes! # address
-  value: BigInt! # uint256
-  blockNumber: BigInt!
+#type BurnOrMint @entity(immutable: true) {
+#  id: Bytes!
+#  timestamp: Timestamp!
+#  from: Bytes! # address
+#  to: Bytes! # address
+#  value: BigInt! # uint256
+#  blockNumber: BigInt!
 #  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
+#  transactionHash: Bytes!
+#}
 
 type TransferStats @aggregation(intervals: ["hour", "day"], source: "Transfer") {
   id: Int8!
   timestamp: Timestamp!
+  type: TransferType!
   volumn: BigInt! @aggregate(fn: "sum", arg: "value")
   count: Int! @aggregate(fn: "count")
 }

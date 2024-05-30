@@ -1,35 +1,31 @@
 {
-  totalSupplies(first:1
+  totalSupplies(first:1,
     orderBy: blockNumber,
     orderDirection: desc
   ) {
     value
     blockNumber
   }
-  # accounts(orderBy: id, orderDirection: asc) {  
-  #   id  
-  #   balances {  
-  #     id  
-  #     token {  
-  #       id  
-  #       name  
-  #       symbol  
-  #       decimals  
-  #     }  
-  #     amount  
-  #   }  
-  # }  
-  tokenBalances(where: {token: "0x64f4c7d3697c2a173adae7cd26a839967258a448"}, first: 10, orderBy: amount, orderDirection: desc) {  
-    id 
-    token {  
-        # id  
-        # name  
-        symbol  
-        decimals  
-      }  
-    account {
-      id
-    }
-    amount  
-  }  
+  transfers(first: 10, 
+    orderBy: blockNumber,
+    orderDirection: desc
+  ) {
+    from
+    to
+    value
+    blockNumber
+  }
+  accounts(first: 10,
+  	orderBy: amount,
+    orderDirection: desc
+  ) {
+    id
+    amount
+  }
+  transferStats_collection(interval: day) {
+    id
+    timestamp
+    volumn
+    count
+  }
 }

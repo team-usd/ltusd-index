@@ -1,4 +1,4 @@
-specVersion: 1.1.0
+specVersion: 1.2.0
 indexerHints:
   prune: auto
 schema:
@@ -17,10 +17,10 @@ dataSources:
       language: wasm/assemblyscript
       entities:
         - TotalSupply
-        - TotalTransfer
+        # - TotalTransfer
         - Token
         - Account
-        - TokenBalance
+        # - TokenBalance
         - Transfer
       abis:
         - name: LTUSD
@@ -28,4 +28,8 @@ dataSources:
       eventHandlers:
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransfer
+          calls:
+            LTUSD.totalSupply: LTUSD[event.address].totalSupply()
+            LTUSD.fromBalance: LTUSD[event.address].balanceOf(event.params.from)
+            LTUSD.toBalance: LTUSD[event.address].balanceOf(event.params.to)
       file: ./src/ltusd.ts

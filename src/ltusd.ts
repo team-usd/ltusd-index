@@ -1,7 +1,7 @@
 import {   
   Transfer as TransferEvent,
 } from "../generated/LTUSD/LTUSD"
-import { TotalSupply, Transfer, BurnOrMint} from "../generated/schema"
+import { TotalSupply, Transfer} from "../generated/schema"
 import {
   fetchAccount,
   fetchBalance
@@ -26,29 +26,26 @@ function handleMint(event: TransferEvent): void {
 }
 
 function handleTransferData(event: TransferEvent): void {
+  let entity = new Transfer("auto")
+  entity.from = event.params.from
+  entity.to = event.params.to
+  entity.value = event.params.value
+
+  entity.blockNumber = event.block.number
+  entity.timestamp = event.block.timestamp.toI32()
+  entity.transactionHash = event.transaction.hash
+
   let zeroAddress = Address.fromString("0x0000000000000000000000000000000000000000")
-  if (event.params.from.equals(zeroAddress) || event.params.to.equals(zeroAddress)) {
-    let entity = new BurnOrMint(event.transaction.hash.concatI32(event.logIndex.toI32()))
-    entity.from = event.params.from
-    entity.to = event.params.to
-    entity.value = event.params.value
-  
-    entity.blockNumber = event.block.number
-    entity.timestamp = event.block.timestamp.toI32()
-    entity.transactionHash = event.transaction.hash
-  
+  if (event.params.from.equals(zeroAddress)) {
+    entity.type = "MINT";
+  } else if (event.params.to.equals(zeroAddress)) {
+    entity.type = "BURN";
   } else {
-    let entity = new Transfer("auto")
-    entity.from = event.params.from
-    entity.to = event.params.to
-    entity.value = event.params.value
-  
-    entity.blockNumber = event.block.number
-    entity.timestamp = event.block.timestamp.toI32()
-    entity.transactionHash = event.transaction.hash
-  
-    entity.save()
+    entity.type = "NORMAL";
   }
+
+  entity.save()
+
 }
 
 function handleBalance(event: TransferEvent, address: Address): void {
