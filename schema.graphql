@@ -5,6 +5,14 @@ type TotalSupply @entity(immutable: true) {
   blockTimestamp: Timestamp!
 }
 
+type TotalTransfer @entity {
+  id: ID!
+  totalCount: BigInt! 
+  totalVolume: BigInt!
+  blockNumber: BigInt!
+  blockTimestamp: Timestamp!
+}
+
 # Token details
 type Token @entity {
   id: ID!
@@ -40,6 +48,8 @@ type Account @entity {
   #balance
   amount: BigInt!
   #last updated block number
+  inTx: Int!
+  outTx: Int!
   blockNumber: BigInt!
   blockTimestamp: Timestamp!
 }
@@ -77,6 +87,18 @@ type TransferStats @aggregation(intervals: ["hour", "day"], source: "Transfer") 
   id: Int8!
   timestamp: Timestamp!
   type: TransferType!
-  volumn: BigInt! @aggregate(fn: "sum", arg: "value")
+  volume: BigInt! @aggregate(fn: "sum", arg: "value")
   count: Int! @aggregate(fn: "count")
+}
+
+type Role @entity {
+    id: ID!
+    roleName: String! 
+    address: Bytes! # address
+    enabled: Boolean!
+}
+
+type Black @entity {
+  id: ID!
+  enabled: Boolean!
 }

@@ -32,4 +32,12 @@ dataSources:
             LTUSD.totalSupply: LTUSD[event.address].totalSupply()
             LTUSD.fromBalance: LTUSD[event.address].balanceOf(event.params.from)
             LTUSD.toBalance: LTUSD[event.address].balanceOf(event.params.to)
+        - event: RoleGranted(indexed bytes32,indexed address,indexed address)
+          handler: handleRoleGranted
+        - event: RoleRevoked(indexed bytes32,indexed address,indexed address)
+          handler: handleRoleRevoked
+        - event: Blacklisted(indexed address)
+          handler: handleBlacklisted
+        - event: UnBlacklisted(indexed address)
+          handler: handleUnBlacklisted
       file: ./src/ltusd.ts
