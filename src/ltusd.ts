@@ -40,7 +40,7 @@ function handleTransferData(event: TransferEvent): void {
   entity.value = event.params.value;
 
   entity.blockNumber = event.block.number;
-  entity.timestamp = event.block.timestamp.toI32();
+  // entity.timestamp = event.block.timestamp.toI32();
   entity.transactionHash = event.transaction.hash;
 
   let zeroAddress = Address.fromString("0x0000000000000000000000000000000000000000");
