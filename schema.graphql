@@ -2,7 +2,7 @@ type TotalSupply @entity(immutable: true) {
   id: Bytes!
   value: BigInt! 
   blockNumber: BigInt!
-  blockTimestamp: Timestamp!
+  blockTimestamp: BigInt!
 }
 
 type TotalTransfer @entity {
@@ -10,7 +10,7 @@ type TotalTransfer @entity {
   totalCount: BigInt! 
   totalVolume: BigInt!
   blockNumber: BigInt!
-  blockTimestamp: Timestamp!
+  blockTimestamp: BigInt!
 }
 
 # Token details
@@ -51,7 +51,7 @@ type Account @entity {
   inTx: Int!
   outTx: Int!
   blockNumber: BigInt!
-  blockTimestamp: Timestamp!
+  blockTimestamp: BigInt!
 }
 
 enum TransferType {
@@ -68,20 +68,9 @@ type Transfer @entity(timeseries: true) {
   type: TransferType!
   value: BigInt! # uint256
   blockNumber: BigInt!
-#  blockTimestamp: BigInt!
+  blockTimestamp: BigInt!
   transactionHash: Bytes!
 }
-
-#type BurnOrMint @entity(immutable: true) {
-#  id: Bytes!
-#  timestamp: Timestamp!
-#  from: Bytes! # address
-#  to: Bytes! # address
-#  value: BigInt! # uint256
-#  blockNumber: BigInt!
-#  blockTimestamp: BigInt!
-#  transactionHash: Bytes!
-#}
 
 type TransferStats @aggregation(intervals: ["hour", "day"], source: "Transfer") {
   id: Int8!
@@ -89,6 +78,8 @@ type TransferStats @aggregation(intervals: ["hour", "day"], source: "Transfer") 
   type: TransferType!
   volume: BigInt! @aggregate(fn: "sum", arg: "value")
   count: Int! @aggregate(fn: "count")
+  total_volume: BigInt! @aggregate(fn: "sum", arg: "value", cumulative: true)
+  total_count: Int! @aggregate(fn: "count", cumulative: true)
 }
 
 type Role @entity {

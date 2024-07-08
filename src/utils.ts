@@ -51,7 +51,7 @@ export function fetchTotal(event: ethereum.Event): TotalTransfer {
   if (!totalTransfer) {
     totalTransfer = new TotalTransfer(event.address.toHex());
     totalTransfer.blockNumber = BigInt.zero();
-    totalTransfer.blockTimestamp = BigInt.zero().toI32();
+    totalTransfer.blockTimestamp = BigInt.zero();
     totalTransfer.totalCount = BigInt.zero();
     totalTransfer.totalVolume = BigInt.zero();
   }
@@ -73,7 +73,7 @@ export function fetchAccount(address: string): Account | null {
     account.inTx = 0;
     account.outTx = 0;
     account.blockNumber = BigInt.zero();
-    account.blockTimestamp = BigInt.zero().toI32();
+    account.blockTimestamp = BigInt.zero();
     account.save();
   }
   return account;

@@ -27,7 +27,7 @@ function handleMint(event: TransferEvent): void {
     if (!totalSupplyResult.reverted) {
       totalSupply.value = totalSupplyResult.value;
       totalSupply.blockNumber = event.block.number;
-      totalSupply.blockTimestamp = event.block.timestamp.toI32();
+      totalSupply.blockTimestamp = event.block.timestamp;
       totalSupply.save();
     }
   }
@@ -41,6 +41,7 @@ function handleTransferData(event: TransferEvent): void {
 
   entity.blockNumber = event.block.number;
   // entity.timestamp = event.block.timestamp.toI32();
+  entity.blockTimestamp = event.block.timestamp;
   entity.transactionHash = event.transaction.hash;
 
   let zeroAddress = Address.fromString("0x0000000000000000000000000000000000000000");
@@ -60,7 +61,7 @@ function handleTransferData(event: TransferEvent): void {
     total.totalCount = total.totalCount.plus(BigInt.fromI32(1));
     total.totalVolume = total.totalVolume.plus(event.params.value);
     total.blockNumber = event.block.number;
-    total.blockTimestamp = event.block.timestamp.toI32();
+    total.blockTimestamp = event.block.timestamp;
     total.save();
   }
 }
@@ -82,7 +83,7 @@ function handleBalance(event: TransferEvent, address: Address): void {
     }
 
     account.blockNumber = event.block.number;
-    account.blockTimestamp = event.block.timestamp.toI32();
+    account.blockTimestamp = event.block.timestamp;
     account.save();
   }
 }
