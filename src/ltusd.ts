@@ -5,11 +5,16 @@ import {
   Blacklisted,
   UnBlacklisted
 } from "../generated/LTUSD/LTUSD"
-import { TotalSupply, Transfer, Account, TotalTransfer} from "../generated/schema"
+import { 
+  TotalSupply, 
+  Transfer, 
+  Account,
+  // TotalTransfer
+  } from "../generated/schema"
 import {
   fetchAccount,
   fetchBalance,
-  fetchTotal,
+  // fetchTotal,
   fetchRole,
   fetchBlack,
 } from "./utils"
@@ -34,13 +39,16 @@ function handleMint(event: TransferEvent): void {
 }
 
 function handleTransferData(event: TransferEvent): void {
+  // set id to auto
   let entity = new Transfer("auto");
+  // remove setting timestamp
+  // entity.timestamp = event.block.timestamp.toI32();
+
   entity.from = event.params.from;
   entity.to = event.params.to;
   entity.value = event.params.value;
 
   entity.blockNumber = event.block.number;
-  // entity.timestamp = event.block.timestamp.toI32();
   entity.blockTimestamp = event.block.timestamp;
   entity.transactionHash = event.transaction.hash;
 
@@ -56,14 +64,14 @@ function handleTransferData(event: TransferEvent): void {
 
   entity.save();
 
-  if (entity.type === "NORMAL") {
-    let total = fetchTotal(event);
-    total.totalCount = total.totalCount.plus(BigInt.fromI32(1));
-    total.totalVolume = total.totalVolume.plus(event.params.value);
-    total.blockNumber = event.block.number;
-    total.blockTimestamp = event.block.timestamp;
-    total.save();
-  }
+  // if (entity.type === "NORMAL") {
+  //   let total = fetchTotal(event);
+  //   total.totalCount = total.totalCount.plus(BigInt.fromI32(1));
+  //   total.totalVolume = total.totalVolume.plus(event.params.value);
+  //   total.blockNumber = event.block.number;
+  //   total.blockTimestamp = event.block.timestamp;
+  //   total.save();
+  // }
 }
 
 function handleBalance(event: TransferEvent, address: Address): void {

@@ -5,13 +5,13 @@ type TotalSupply @entity(immutable: true) {
   blockTimestamp: BigInt!
 }
 
-type TotalTransfer @entity {
-  id: ID!
-  totalCount: BigInt! 
-  totalVolume: BigInt!
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-}
+# type TotalTransfer @entity {
+#   id: ID!
+#   totalCount: BigInt! 
+#   totalVolume: BigInt!
+#   blockNumber: BigInt!
+#   blockTimestamp: BigInt!
+# }
 
 # Token details
 type Token @entity {
@@ -61,7 +61,7 @@ enum TransferType {
 }
 
 type Transfer @entity(timeseries: true) {
-  id: Int8!
+  id: Int8! 
   timestamp: Timestamp!
   from: Bytes! # address
   to: Bytes! # address

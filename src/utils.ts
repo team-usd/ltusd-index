@@ -1,7 +1,9 @@
 //import smart contract class from generated files
 import { LTUSD } from "../generated/LTUSD/LTUSD";
 //import entities
-import { Account, Token, TotalTransfer, Role, Black } from "../generated/schema";
+import { Account, Token, 
+  // TotalTransfer, 
+  Role, Black } from "../generated/schema";
 //import datatypes
 import { BigDecimal, ethereum, Address, BigInt, Int8, Bytes } from "@graphprotocol/graph-ts";
 //fetch token details
@@ -45,18 +47,18 @@ import { BigDecimal, ethereum, Address, BigInt, Int8, Bytes } from "@graphprotoc
 //   return token;
 // }
 
-export function fetchTotal(event: ethereum.Event): TotalTransfer {
-  //check if token details are already saved
-  let totalTransfer = TotalTransfer.load(event.address.toHex());
-  if (!totalTransfer) {
-    totalTransfer = new TotalTransfer(event.address.toHex());
-    totalTransfer.blockNumber = BigInt.zero();
-    totalTransfer.blockTimestamp = BigInt.zero();
-    totalTransfer.totalCount = BigInt.zero();
-    totalTransfer.totalVolume = BigInt.zero();
-  }
-  return totalTransfer;
-}
+// export function fetchTotal(event: ethereum.Event): TotalTransfer {
+//   //check if token details are already saved
+//   let totalTransfer = TotalTransfer.load(event.address.toHex());
+//   if (!totalTransfer) {
+//     totalTransfer = new TotalTransfer(event.address.toHex());
+//     totalTransfer.blockNumber = BigInt.zero();
+//     totalTransfer.blockTimestamp = BigInt.zero();
+//     totalTransfer.totalCount = BigInt.zero();
+//     totalTransfer.totalVolume = BigInt.zero();
+//   }
+//   return totalTransfer;
+// }
 
 //fetch account details
 export function fetchAccount(address: string): Account | null {
